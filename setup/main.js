@@ -73,7 +73,7 @@ const navigation ='\
 const footer ='\
 <p>\
 '+blogname+' is written by <a href="'+userlink+'">'+username+'</a>. \
-Created with <a href="https://stupied.neocities.org/blog/tabvoid/">Tabvoid</a>\
+Created with <a href="https://stupied.neocities.org/tabvoid/">Tabvoid</a>\
 </p>\
 '
 
