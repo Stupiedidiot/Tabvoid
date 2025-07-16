@@ -21,13 +21,24 @@ const userlink = "https://stupied.neocities.org"
 
 const posts=[
 	{file:"2024-11-17-Set-Up.html",},
-	{file:"2024-11-18-Live-Demo.html",},
-	//{file:"2024-11-19-Customization.html",},
+	{
+		file:"2024-11-18-Live-Demo.html",
+		img:"img/demo.png"
+	},
+	{
+		file:"2025-05-15-The-Code.html",
+		alt:"Understanding the Code"
+	},
 	{
 		file:"0000-00-00-Themes.html",
 		img:"img/themes.png",
 		desc:"[Under Construction] Preset designs"
-	}
+	},
+	{
+		file:"2025-05-16-CSS-Tricks.html",
+		alt:"Cool CSS Tricks"
+	},
+	{file:"0000-00-00-Webring.html",}
 ]
 
 //-----------------------------
@@ -262,4 +273,10 @@ if (e=document.getElementById("comments")){
 function loadcomments(){
 	if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24lorU9Glfj8bQyg9yk9caG%2F"+"&opts=16798&num=10&ts=1699153972795");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})();
 }
-        
+
+// COMMENTS
+if (document.getElementById("c_widget")){
+  var script = document.createElement('script');
+  script.src = "https://stupied.neocities.org/meta/comment-widget.js";
+  document.head.appendChild(script);
+}
