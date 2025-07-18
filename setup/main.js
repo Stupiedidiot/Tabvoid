@@ -66,7 +66,8 @@ const navigation =`
 	<nav>
 		<a href="${relativePath}index.html">Home</a>
 		<a href="${relativePath}about.html">About</a>
-		<a href="${relativePath}archive.html"">Archive</a>
+		<a href="${relativePath}archive.html">Archive</a>
+		<a href="#" onclick="randomPost()">Random</a>
 	</nav>
 </div>
 `
@@ -287,4 +288,9 @@ document.onkeydown = function(event) {
         break;
         }
   }
+}
+
+function randomPost(){
+	randomNum = Math.floor(Math.random() * posts.length);
+	window.location.href = `${relativePath}post/${posts[randomNum].file}`
 }
