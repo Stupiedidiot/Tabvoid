@@ -53,9 +53,10 @@ const posts=[
 const url = window.location.pathname;relativePath = "./";
 if(url.includes("post")){relativePath="./../";}
 // add "relativePath" to any anchor tags or file paths
+// this will insure the links will work properly
 
 const header=`
-<img src="${relativePath}img/banner.png">
+	<img src="${relativePath}img/banner.png">
 `
 
 const navigation =`
@@ -70,10 +71,11 @@ const navigation =`
 </div>
 `
 
+// Feel free to remove the credit
 const footer =`
 <p>
 	${blogname} is written by <a href="${userlink}">${username}</a>.
-	Created with <a href="https://stupied.neocities.org/tabvoid/">Tabvoid</a>\
+	Created with <a href="https://stupied.neocities.org/tabvoid/">Tabvoid</a>
 </p>
 `
 
@@ -111,14 +113,15 @@ if( current.index > -1){
 
 	if(document.title===""){document.title=current.title;}
 	
-	titleHTML = "<h1>" + current.title + "</h1>"
-	dateHTML =  "<h4>" + current.date + "</h4>"
+	titleHTML = `<h1>${current.title}</h1>`
+	dateHTML =  `<h4>${current.date}</h4>`
 	navHTML = genNav(posts)
 
 	if(e = document.querySelector("#blog-title")){ e.innerHTML = (titleHTML); }
 	if(e = document.querySelector("#blog-date")){ e.innerHTML = (dateHTML); }
 	if(e = document.querySelector("#nextprev")){ e.innerHTML = (navHTML); }
 } else {
+	// Will fire if blog index is unknown
 	if(e = document.querySelector("#blog-title")){ e.innerHTML = "<h1>[Unlisted Post]</h1>"; }
 
 	postRecent = ""
@@ -150,25 +153,9 @@ if( current.index > -1){
 	if(e=document.querySelector("#blog-recent")){e.innerHTML=postRecent;}
 }
 
-if( document.title==="" ){ document.title=blogname;
-}else{ document.title+= " | " + blogname; }
-
-// Keyboard Navigation
-document.onkeydown = function(event) {
-  if( document.activeElement === document.querySelector("body") ){
-    switch (event.keyCode) {
-        case 37:
-			if(e=document.getElementById("nextprev_next")){e.click()}
-        break;
-        case 39:
-			if(e=document.getElementById("nextprev_prev")){e.click()}
-        break;
-        case 27:
-			document.getElementById("nextprev_archive").click()
-        break;
-        }
-  }
-}
+// Checks if title is empty and adds the blog name
+if( document.title==="" ){ document.title = blogname;
+}else{ document.title+= ` | ${blogname}`; }
 
 //-----------------------------
 
@@ -191,6 +178,7 @@ function getIndex(e){
 	}
 	return -1
 }
+
 function getTitle(i){
     if ( posts[i].hasOwnProperty("alt") ){
         title = posts[i].alt;
@@ -200,12 +188,12 @@ function getTitle(i){
         title = title.replaceAll("-"," ");
         title = title.replaceAll(".html","");
     }
-return title;
+	return title;
 }
 
 function getDate(e){
-date = e.slice(0,10);
-return date
+	date = e.slice(0,10);
+	return date
 }
 
 function convDate(i){
@@ -283,4 +271,21 @@ function genNav(){
 		result += ` | <a id="nextprev_prev" href="./${prevI}">Prev »</a>`
 	}
 	return result
+}
+
+// Keyboard Navigation
+document.onkeydown = function(event) {
+  if( document.activeElement === document.querySelector("body") ){
+    switch (event.keyCode) {
+        case 37:
+			if(e=document.getElementById("nextprev_next")){e.click()}
+        break;
+        case 39:
+			if(e=document.getElementById("nextprev_prev")){e.click()}
+        break;
+        case 27:
+			document.getElementById("nextprev_archive").click()
+        break;
+        }
+  }
 }
