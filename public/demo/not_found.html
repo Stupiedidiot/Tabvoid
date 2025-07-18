@@ -16,8 +16,11 @@
 <script src="./main.js"></script>
 <script>
     // redirects to the root folder for the sake of simplicity
-    if(window.location.pathname.includes("not_found") === false) {
-        window.location.replace(window.location.hostname+"/not_found")
+    relativePath = "./";
+    urlPath = window.location.pathname.split('/');
+    if(urlPath.length > 2){for(i=0;i<urlPath.length;i++){relativePath+="../"}}
+    if(urlPath.includes("not_found") === false) {
+        window.location.replace(relativePath + "not_found")
     }
 
     // reports previous url for troubleshooting
