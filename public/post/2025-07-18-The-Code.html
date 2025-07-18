@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=stylesheet href=./../style/main.css>
+    <title></title>
+<style>
+    h2 {margin-top: 2rem;}
+    p > code, li > code {color:var(--accent-color);}
+
+    pre {
+        background-color: black;
+        border: 1px dashed white;
+        code { 
+            display: block;
+            padding: 0 1rem;    
+            overflow: auto;
+        }
+    }
+</style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div id="blog-title"></div>
+        <div id="blog-date"></div>
+        <p>In order to fully utilize Tabvoid, it helps to understand the code! I will be going through the important stuff so you can get a general idea of how everything works. Please keep in mind that I wrote this with the assumption you have a a bit of an understanding of how Javascript works.</p>
+
+        <h2>[1] Page Template</h2>
+        <p>We first store the element of our template within a variables. They're encoded as strings so it won't be too difficult to edit it. The words wrapped around curly brackets with a dollar sign (<code>${}</code>) are variables. The example below is the navigation with <code>${relativePath}</code> variable that ensures that every link starts at the root.</p>
+    
+<pre>
+<code>
+const navigation =&#x60;
+&#x3C;div&#x3E;
+    &#x3C;a href=&#x22;#&#x22;&#x3E;&#x3C;img src=&#x22;${relativePath}img/pfp.png&#x22;&#x3E;&#x3C;/a&#x3E;
+    &#x3C;h3&#x3E;&#x60;+ blogname +&#x60;&#x3C;/h3&#x3E;
+    &#x3C;nav&#x3E;
+        &#x3C;a href=&#x22;${relativePath}index.html&#x22;&#x3E;Home&#x3C;/a&#x3E;
+        &#x3C;a href=&#x22;${relativePath}about.html&#x22;&#x3E;About&#x3C;/a&#x3E;
+        &#x3C;a href=&#x22;${relativePath}archive.html&#x22;&#x3E;Archive&#x3C;/a&#x3E;
+        &#x3C;a href=&#x22;#&#x22; onclick=&#x22;randomPost()&#x22;&#x3E;Random&#x3C;/a&#x3E;
+        &#x3C;a href=&#x22;${relativePath}../index.html&#x22;&#x3E;Head Back &#xBB;&#x3C;/a&#x3E;
+    &#x3C;/nav&#x3E;
+&#x3C;/div&#x3E;
+&#x60;
+</code>
+</pre>
+        <p>We declare different elements and stitch them all together into one variable to make one big template.</p>
+<pre>
+<code>
+const template =&#x60;
+&#x3C;div id=&#x22;container&#x22;&#x3E;
+    &#x3C;header&#x3E;${header}&#x3C;/header&#x3E;
+    &#x3C;div id=&#x22;nav&#x22;&#x3E;${navigation}&#x3C;/div&#x3E;
+    &#x3C;main&#x3E;&#x3C;/main&#x3E;
+    &#x3C;footer&#x3E;${footer}&#x3C;/footer&#x3E;
+&#x3C;/div&#x3E;
+&#x60;
+</code>
+</pre>
+
+        <p>Once we've put all of that together, we append it to the document. We then find all the elements with the <code>main-content</code> class and add them to the newly added template's <code>main</code> element.</p>
+<pre>
+<code>
+document.querySelector(&#x22;body&#x22;).innerHTML+= template;
+
+main = document.querySelectorAll(&#x22;.main-content&#x22;);
+for(i=0; i &#x3C; main.length; i++) {
+    document.querySelector(&#x22;#container main&#x22;).append(main[i]);
+}
+</code>
+</pre>
+        <p>And that's basically it! If you want to add more elements, just edit the template then reuse the last few lines of the code above to change what to grab and where to put them.</p>
+
+        <h2>[2] Modifying Array</h2>
+        <p>All your posts are stored inside an array of objects. You just need to write the file you want to include. The script will automatically get the title from file name.</p>
+
+<pre>
+<code>
+const posts=[
+    {file:"YYYY-MM-DD-Title.html"}
+]
+</code>
+</pre>
+
+        <p style="margin-bottom:0;">Here's a list of the optional properties you can set:</p>
+        <ul>
+            <li><code>alt</code> - Title that will override the one taken from the file name.</li>
+            <li><code>desc</code> - A short description shown in the archive</li>
+            <li><code>img</code> - A thumbnail shown in the archive</li>
+        </ul>
+
+        <h2>[3] That's it!</h2>
+        <p>Okay that's a lie; There's a lot more going on but that's all you really need to know tbh. If you're really curios of how everthing works, you are free to go through and take apart the code. I've tried my best to keep it readable.</p>
+
+        <p>I strongly encourage you to mess around and adjusting the code to whatever you like. Hell, even go out and claim it as your own!!</p>
+
+        <div id="nextprev"></div>
+    </div>
+
+<script src="./../main.js"></script>
+</body>
+</html>

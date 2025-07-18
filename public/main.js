@@ -23,16 +23,16 @@ const posts=[
 	{file:"2024-11-17-Set-Up.html",},
 	{file:"2024-11-18-Live-Demo.html",},
 	{
-		file:"2025-05-15-The-Code.html",
+		file:"2025-07-18-The-Code.html",
 		alt:"Understanding the Code"
 	},
 	{
 		file:"0000-00-00-Themes.html",
 		img:"img/themes.png",
-		desc:"[Under Construction] Preset designs"
+		desc:"Preset designs"
 	},
 	{
-		file:"2025-05-16-CSS-Tricks.html",
+		file:"2025-07-19-CSS-Tricks.html",
 		alt:"Cool CSS Tricks"
 	},
 	{file:"0000-00-00-Webring.html",}
