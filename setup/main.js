@@ -133,7 +133,6 @@ if( current.index > -1){
 		itemDate = getDate(posts[i].file)
 		itemDesc = getDesc(i)
 		itemImg = getImg(i)
-		console.log(itemImg)
 
 		item=`
 		<a href="${itemLink}">
