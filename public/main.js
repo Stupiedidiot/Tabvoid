@@ -21,10 +21,7 @@ const userlink = "https://stupied.neocities.org"
 
 const posts=[
 	{file:"2024-11-17-Set-Up.html",},
-	{
-		file:"2024-11-18-Live-Demo.html",
-		img:"img/demo.png"
-	},
+	{file:"2024-11-18-Live-Demo.html",},
 	{
 		file:"2025-05-15-The-Code.html",
 		alt:"Understanding the Code"
