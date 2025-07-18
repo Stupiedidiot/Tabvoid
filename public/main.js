@@ -63,6 +63,7 @@ const navigation =`
 		<a href="` + relativePath + `demo/index.html">Live Demo</a>
 		<a href="` + relativePath + `post/0000-00-00-Themes.html"">Themes</a>
 		<a href="` + relativePath + `archive.html"">Archive</a>
+		<a href="` + relativePath + `bug.html"">Help</a>
 	</nav>
 </div>
 `
@@ -86,10 +87,9 @@ const template =`
 
 // [4] DA CODE - You don't have to touch anything here (unless you really wanna)
 
-
 document.querySelector("body").innerHTML+= template;
 
-main=document.querySelectorAll(".main-content");
+main = document.querySelectorAll(".main-content");
 for(i=0; i<main.length; i++){
     document.querySelector("#container main").append(main[i]);
 }
@@ -108,36 +108,38 @@ if( current.index > -1){
 
 	if(document.title===""){document.title=current.title;}
 	
-	titleHTML = "<h1>" + current.title + "</h1>"
-	dateHTML =  "<h4>" + current.date + "</h4>"
+	titleHTML = `<h1>${current.title}</h1>`
+	dateHTML =  `<h4>${current.date}</h4>`
 	navHTML = genNav(posts)
 
-	if(e=document.querySelector("#blog-title")){e.innerHTML=(titleHTML);}
-	if(e=document.querySelector("#blog-date")){e.innerHTML=(dateHTML);}
-	if(e=document.querySelector("#nextprev")){e.innerHTML=(navHTML);}
+	if(e = document.querySelector("#blog-title")){ e.innerHTML = (titleHTML); }
+	if(e = document.querySelector("#blog-date")){ e.innerHTML = (dateHTML); }
+	if(e = document.querySelector("#nextprev")){ e.innerHTML = (navHTML); }
 } else {
-	if(e=document.querySelector("#blog-title")){e.innerHTML="<h1>[Unlisted Post]</h1>";}
+	// Will fire if blog index is unknown
+	if(e = document.querySelector("#blog-title")){ e.innerHTML = "<h1>[Unlisted Post]</h1>"; }
 
-	postRecent=""
-	postArchive=""
+	postRecent = ""
+	postArchive = ""
 	for (i=0; i < posts.length; i++){
 		itemLink = relativePath + "post/" + posts[i].file
 
-		itemTitle=getTitle(i)
-		itemDate=getDate(posts[i].file)
-		itemDesc=getDesc(i)
-		itemImg=getImg(i)
+		itemTitle = getTitle(i)
+		itemDate = getDate(posts[i].file)
+		itemDesc = getDesc(i)
+		itemImg = getImg(i)
 
-		item='\
-		<a href="' + itemLink + '">\
-		<div class="blog-item">\
-			<div class="item-title">' + itemTitle + '</div>\
-			<div class="item-date">' + itemDate + '</div>\
-			<div class="item-desc">' + itemDesc + '</div>\
-			<div class="item-img"><img src="' + itemImg +'"></div>\
-		</div>\
-		</a>\
-		'	
+		item=`
+		<a href="${itemLink}">
+			<div class="blog-item">
+				<div class="item-title">${itemTitle}</div>
+				<div class="item-date">${itemDate}</div>
+				<div class="item-desc">${itemDesc}</div>
+				<div class="item-img"><img src="${itemImg}"></div>
+			</div>
+		</a>
+		`
+
 		postArchive+=item
 		if(i<3){postRecent+=item}
 	}
@@ -145,8 +147,9 @@ if( current.index > -1){
 	if(e=document.querySelector("#blog-recent")){e.innerHTML=postRecent;}
 }
 
-if( document.title==="" ){ document.title=blogname;
-}else{ document.title+= " | " + blogname; }
+// Checks if title is empty and adds the blog name
+if( document.title==="" ){ document.title = blogname;
+}else{ document.title+= ` | ${blogname}`; }
 
 //-----------------------------
 
@@ -169,6 +172,7 @@ function getIndex(e){
 	}
 	return -1
 }
+
 function getTitle(i){
     if ( posts[i].hasOwnProperty("alt") ){
         title = posts[i].alt;
@@ -178,12 +182,12 @@ function getTitle(i){
         title = title.replaceAll("-"," ");
         title = title.replaceAll(".html","");
     }
-return title;
+	return title;
 }
 
 function getDate(e){
-date = e.slice(0,10);
-return date
+	date = e.slice(0,10);
+	return date
 }
 
 function convDate(i){
@@ -251,30 +255,44 @@ function genNav(){
 	result=""
 	if( e = posts[current.index-1] ){
 		nextI= e.file;
-		result+="<a href='./" + nextI + "'>« Next</a> | " 
+		result+="<a href='./" + nextI + "' id='nextprev_next'>Prev</a>" 
 	}
-
-	result+='<a href="'+relativePath+'archive.html">Archive'
 
 	if(e = posts[current.index+1]){
 		prevI= e.file;
-		result+=" | <a href='./" + prevI + "'>Prev »</a>"
+		result+="<a href='./" + prevI + "' id='nextprev_prev'>Next</a>"
 	}
+
+	result+='<a href="'+relativePath+'archive.html" id="nextprev_archive">Archive'
 	return result
 }
+
+// Keyboard Navigation
+document.onkeydown = function(event) {
+  if( document.activeElement === document.querySelector("body") ){
+    switch (event.keyCode) {
+        case 37:
+			if(e=document.getElementById("nextprev_next")){e.click()}
+        break;
+        case 39:
+			if(e=document.getElementById("nextprev_prev")){e.click()}
+        break;
+        case 27:
+			document.getElementById("nextprev_archive").click()
+        break;
+        }
+  }
+}
+
+function randomPost(){
+	randomNum = Math.floor(Math.random() * posts.length);
+	window.location.href = `${relativePath}post/${posts[randomNum].file}`
+}
+
 //-----------------------------
 
-// Comments
-
-if (e=document.getElementById("comments")){
-	e.innerHTML='<div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Beep Boop</a>, hold please!</div><link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" /><style>#HCB_comment_box img{width:auto;display:inline-block;}.home-desc{display:none;}#HCB_comment_box h3:first-child{margin:0;}</style>';
-	loadcomments()
-}
-function loadcomments(){
-	if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24lorU9Glfj8bQyg9yk9caG%2F"+"&opts=16798&num=10&ts=1699153972795");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})();
-}
-
 // COMMENTS
+
 if (document.getElementById("c_widget")){
   var script = document.createElement('script');
   script.src = "https://stupied.neocities.org/meta/comment-widget.js";

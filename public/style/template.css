@@ -141,7 +141,21 @@ p:last-child,ol:last-child,ul:last-child{
     }
 }
 
-#nextprev {text-align:center;user-select:none;}
+#nextprev{
+    margin-top:3rem;
+    font-family: var(--display-font);
+}
+#nextprev a { padding: 0.3rem; margin-right: 0.3rem; }
+
+#nextprev_next {
+    border: 2px solid white;
+    background-color: white;
+    color: black;
+}
+
+#nextprev_prev {
+    border: 2px solid white;
+}
 
 /*=== BLOG LIST STYLING ===*/
 /* Use these tags to hide certain elements in the blog list */
