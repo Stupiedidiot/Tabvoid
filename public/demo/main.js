@@ -68,6 +68,7 @@ const navigation =`
 		<a href="${relativePath}about.html">About</a>
 		<a href="${relativePath}archive.html">Archive</a>
 		<a href="#" onclick="randomPost()">Random</a>
+		<a href="${relativePath}../index.html">Head Back »</a>
 	</nav>
 </div>
 `
