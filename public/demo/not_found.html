@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="style" rel=stylesheet>
+    <link rel="stylesheet" href="./style/main.css">
     <title>Not Found</title>
 </head>
 <body>
@@ -13,13 +13,15 @@
         <p>The page you are looking for appears to be missing</p>
     </div>
 
-<script id="script"></script>
+<script src="./main.js"></script>
 <script>
-    url = window.location.pathname;relativePath = "./";
-    if(url.includes("post")){relativePath="./../";}
+    // redirects to the root folder for the sake of simplicity
+    if(window.location.pathname.includes("not_found") === false) {
+        window.location.replace(window.location.hostname+"/not_found")
+    }
 
-    document.getElementById("script").src= relativePath + "main.js"
-    document.getElementById("style").href= relativePath + "style/main.css"
+    // reports previous url for troubleshooting
+    console.log("Prev: " + document.referrer)
 </script>
 </body>
 </html>

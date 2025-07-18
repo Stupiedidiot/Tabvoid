@@ -53,37 +53,39 @@ const posts=[
 const url = window.location.pathname;relativePath = "./";
 if(url.includes("post")){relativePath="./../";}
 // add "relativePath" to any anchor tags or file paths
+// this will insure the links will work properly
 
 const header=`
-<img src="` + relativePath + `img/banner.png">
+	<img src="${relativePath}img/banner.png">
 `
 
 const navigation =`
 <div>
-    <a href="#"><img src="` + relativePath + `img/pfp.png"></a>
+    <a href="#"><img src="${relativePath}img/pfp.png"></a>
     <h3>`+ blogname +`</h3>
 	<nav>
-		<a href="` + relativePath + `index.html">Home</a>
-		<a href="` + relativePath + `about.html">About</a>
-		<a href="` + relativePath + `archive.html"">Archive</a>
-		<a href="` + relativePath + `../index.html"">Head Back</a>
+		<a href="${relativePath}index.html">Home</a>
+		<a href="${relativePath}about.html">About</a>
+		<a href="${relativePath}archive.html">Archive</a>
+		<a href="#" onclick="randomPost()">Random</a>
 	</nav>
 </div>
 `
 
+// Feel free to remove the credit
 const footer =`
 <p>
-` + blogname + ` is written by <a href="` + userlink + `">` + username + `</a>.
-	Created with <a href="https://stupied.neocities.org/tabvoid/">Tabvoid</a>\
+	${blogname} is written by <a href="${userlink}">${username}</a>.
+	Created with <a href="https://stupied.neocities.org/tabvoid/">Tabvoid</a>
 </p>
 `
 
 const template =`
 <div id="container">
-	<header>`+ header +`</header>
-	<div id="nav">` + navigation + `</div>
+	<header>${header}</header>
+	<div id="nav">${navigation}</div>
 	<main></main>
-	<footer>` + footer + `</footer>
+	<footer>${footer}</footer>
 </div>
 `
 
@@ -91,10 +93,9 @@ const template =`
 
 // [4] DA CODE - You don't have to touch anything here (unless you really wanna)
 
-
 document.querySelector("body").innerHTML+= template;
 
-main=document.querySelectorAll(".main-content");
+main = document.querySelectorAll(".main-content");
 for(i=0; i<main.length; i++){
     document.querySelector("#container main").append(main[i]);
 }
@@ -113,36 +114,38 @@ if( current.index > -1){
 
 	if(document.title===""){document.title=current.title;}
 	
-	titleHTML = "<h1>" + current.title + "</h1>"
-	dateHTML =  "<h4>" + current.date + "</h4>"
+	titleHTML = `<h1>${current.title}</h1>`
+	dateHTML =  `<h4>${current.date}</h4>`
 	navHTML = genNav(posts)
 
-	if(e=document.querySelector("#blog-title")){e.innerHTML=(titleHTML);}
-	if(e=document.querySelector("#blog-date")){e.innerHTML=(dateHTML);}
-	if(e=document.querySelector("#nextprev")){e.innerHTML=(navHTML);}
+	if(e = document.querySelector("#blog-title")){ e.innerHTML = (titleHTML); }
+	if(e = document.querySelector("#blog-date")){ e.innerHTML = (dateHTML); }
+	if(e = document.querySelector("#nextprev")){ e.innerHTML = (navHTML); }
 } else {
-	if(e=document.querySelector("#blog-title")){e.innerHTML="<h1>[Unlisted Post]</h1>";}
+	// Will fire if blog index is unknown
+	if(e = document.querySelector("#blog-title")){ e.innerHTML = "<h1>[Unlisted Post]</h1>"; }
 
-	postRecent=""
-	postArchive=""
+	postRecent = ""
+	postArchive = ""
 	for (i=0; i < posts.length; i++){
 		itemLink = relativePath + "post/" + posts[i].file
 
-		itemTitle=getTitle(i)
-		itemDate=getDate(posts[i].file)
-		itemDesc=getDesc(i)
-		itemImg=getImg(i)
+		itemTitle = getTitle(i)
+		itemDate = getDate(posts[i].file)
+		itemDesc = getDesc(i)
+		itemImg = getImg(i)
 
-		item='\
-		<a href="' + itemLink + '">\
-		<div class="blog-item">\
-			<div class="item-title">' + itemTitle + '</div>\
-			<div class="item-date">' + itemDate + '</div>\
-			<div class="item-desc">' + itemDesc + '</div>\
-			<div class="item-img"><img src="' + itemImg +'"></div>\
-		</div>\
-		</a>\
-		'	
+		item=`
+		<a href="${itemLink}">
+			<div class="blog-item">
+				<div class="item-title">${itemTitle}</div>
+				<div class="item-date">${itemDate}</div>
+				<div class="item-desc">${itemDesc}</div>
+				<div class="item-img"><img src="${itemImg}"></div>
+			</div>
+		</a>
+		`
+
 		postArchive+=item
 		if(i<3){postRecent+=item}
 	}
@@ -150,8 +153,9 @@ if( current.index > -1){
 	if(e=document.querySelector("#blog-recent")){e.innerHTML=postRecent;}
 }
 
-if( document.title==="" ){ document.title=blogname;
-}else{ document.title+= " | " + blogname; }
+// Checks if title is empty and adds the blog name
+if( document.title==="" ){ document.title = blogname;
+}else{ document.title+= ` | ${blogname}`; }
 
 //-----------------------------
 
@@ -174,6 +178,7 @@ function getIndex(e){
 	}
 	return -1
 }
+
 function getTitle(i){
     if ( posts[i].hasOwnProperty("alt") ){
         title = posts[i].alt;
@@ -183,12 +188,12 @@ function getTitle(i){
         title = title.replaceAll("-"," ");
         title = title.replaceAll(".html","");
     }
-return title;
+	return title;
 }
 
 function getDate(e){
-date = e.slice(0,10);
-return date
+	date = e.slice(0,10);
+	return date
 }
 
 function convDate(i){
@@ -255,15 +260,37 @@ function getImg(i){
 function genNav(){
 	result=""
 	if( e = posts[current.index-1] ){
-		nextI= e.file;
-		result+="<a href='./" + nextI + "'>« Next</a> | " 
+		nextI = e.file;
+		result += `<a id="nextprev_next" href="./${nextI}">« Next</a> | ` 
 	}
 
-	result+='<a href="'+relativePath+'archive.html">Archive'
+	result += `<a id="nextprev_archive" href="${relativePath}archive.html">Archive`
 
 	if(e = posts[current.index+1]){
-		prevI= e.file;
-		result+=" | <a href='./" + prevI + "'>Prev »</a>"
+		prevI = e.file;
+		result += ` | <a id="nextprev_prev" href="./${prevI}">Prev »</a>`
 	}
 	return result
+}
+
+// Keyboard Navigation
+document.onkeydown = function(event) {
+  if( document.activeElement === document.querySelector("body") ){
+    switch (event.keyCode) {
+        case 37:
+			if(e=document.getElementById("nextprev_next")){e.click()}
+        break;
+        case 39:
+			if(e=document.getElementById("nextprev_prev")){e.click()}
+        break;
+        case 27:
+			document.getElementById("nextprev_archive").click()
+        break;
+        }
+  }
+}
+
+function randomPost(){
+	randomNum = Math.floor(Math.random() * posts.length);
+	window.location.href = `${relativePath}post/${posts[randomNum].file}`
 }
